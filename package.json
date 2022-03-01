@@ -6,22 +6,71 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
     "@testing-library/user-event": "^13.2.1",
+    "eslint": "^8.10.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-react-app": "^7.0.0",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.29.2",
+    "eslint-plugin-react-app": "^6.2.2",
+    "eslint-plugin-react-hooks": "^4.3.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "5.0.0",
+    "sass": "^1.49.9",
     "web-vitals": "^2.1.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "lint": "npx eslint --ignore-pattern '**/node_modules/*' --ignore-pattern '**/*.test.js' --fix ./src --ext .js --ext .jsx",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
+    "env": {
+      "browser": true,
+      "es6": true,
+      "jest": true
+    },
     "extends": [
       "react-app",
-      "react-app/jest"
-    ]
+      "airbnb",
+      "plugin:jsx-a11y/recommended"
+    ],
+    "parserOptions": {
+      "ecmaVersion": 8
+    },
+    "plugins": [
+      "jsx-a11y",
+      "react-hooks"
+    ],
+    "rules": {
+      "consistent-return": 1,
+      "strict": [
+        1
+      ],
+      "max-len": [
+        "warn",
+        200
+      ],
+      "no-underscore-dangle": [
+        1
+      ],
+      "no-console": "warn",
+      "react/jsx-props-no-spreading": "off",
+      "no-unused-vars": "error",
+      "import/no-named-as-default": 0,
+      "react-hooks/rules-of-hooks": "error",
+      "react-hooks/exhaustive-deps": "warn",
+      "import/no-extraneous-dependencies": [
+        "error",
+        {
+          "devDependencies": true
+        }
+      ]
+    }
   },
   "browserslist": {
     "production": [
