@@ -2,11 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function CanvasWrapper({ imageSize: { width: imgWidth, height: imgHeight }, children }) {
-  const ratio1 = imgWidth / imgHeight;
-  const ratio2 = imgHeight / imgWidth;
-  const calcWidth = imgWidth > imgHeight ? 500 : 500 * ratio1;
-  const calcHeight = imgHeight > imgWidth ? 500 : 500 * ratio2;
-  console.log(calcWidth, calcHeight);
+  const calcWidth = imgWidth > imgHeight ? 500 : 500 / (imgHeight / imgWidth);
+  const calcHeight = imgHeight > imgWidth ? 500 : 500 / (imgWidth / imgHeight);
   return (
     <div style={{
       position: 'relative', display: 'block', width: calcWidth || 0, height: calcHeight || 0,

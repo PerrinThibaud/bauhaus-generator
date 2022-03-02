@@ -274,8 +274,8 @@ const Canvas = forwardRef(({ tileSize: ITEMSIZE, bgColor: BG }, ref) => {
   // display the grid
   const drawGrid = useCallback(() => {
     // calculate the number of columns and rows depending the item size
-    const columnsNb = Math.ceil(window.innerWidth / ITEMSIZE);
-    const rowsNb = Math.ceil(window.innerHeight / ITEMSIZE);
+    const columnsNb = Math.ceil(imageSize.width / ITEMSIZE);
+    const rowsNb = Math.ceil(imageSize.height / ITEMSIZE);
     // Columns
     Array.from({ length: columnsNb }, (_, k) => k).forEach((cIndex) => {
       // Rows
@@ -283,7 +283,7 @@ const Canvas = forwardRef(({ tileSize: ITEMSIZE, bgColor: BG }, ref) => {
         drawItems(cIndex, rIndex);
       });
     });
-  }, [ITEMSIZE, drawItems]);
+  }, [ITEMSIZE, drawItems, imageSize.height, imageSize.width]);
 
   // function to center and fit the image
   function drawImageScaled(img, ctx) {
@@ -320,8 +320,8 @@ const Canvas = forwardRef(({ tileSize: ITEMSIZE, bgColor: BG }, ref) => {
   // Runs each time the DOM window resize event fires.
   // Resets the canvas dimensions to match window,
   const resizeCanvas = useCallback(async () => {
-    const canvasWidth = window.innerWidth; // the width of the canvas = the window width size
-    const canvasHeight = window.innerHeight;
+    const canvasWidth = imageSize.width; // the width of the canvas = the window width size
+    const canvasHeight = imageSize.height;
 
     // init canvas sizes
     context.canvas.width = canvasWidth;
@@ -333,7 +333,7 @@ const Canvas = forwardRef(({ tileSize: ITEMSIZE, bgColor: BG }, ref) => {
 
     await drawWallpaper();
     drawGrid();
-  }, [BG, context, drawGrid, drawWallpaper]);
+  }, [BG, context, drawGrid, drawWallpaper, imageSize.height, imageSize.width]);
 
   // At the mounted state of the component we initialise the canvas
   useEffect(() => {

@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import styles from './UploadFile.module.scss';
 
 // Component that manage the upload of a new photo
-// eslint-disable-next-line no-unused-vars
 function UploadFile({ setImage, setImageSize }) {
   // Function that load an image from the input
   const handleDataChange = (event) => {
@@ -33,6 +32,7 @@ UploadFile.propTypes = {
 UploadFile.defaultProps = {
   // eslint-disable-next-line no-console
   setImage: () => { console.error('Upload function is not implemented'); },
+  // eslint-disable-next-line no-console
   setImageSize: () => { console.error('Image size function is not implemented'); },
 };
 
