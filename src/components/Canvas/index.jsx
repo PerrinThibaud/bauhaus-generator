@@ -1,53 +1,258 @@
 import React, {
-  useEffect, useRef, useState, useCallback,
+  useEffect, useRef, useState, useCallback, useMemo,
 } from 'react';
+import PropTypes from 'prop-types';
 import styles from './Canvas.module.scss';
 
+// eslint-disable-next-line no-unused-vars
 import City from '../../assets/images/city.jpg';
 // eslint-disable-next-line no-unused-vars
-import { average, rgbToHexa } from '../../services/utils';
+import Face from '../../assets/images/face.png';
+import { rand, rgbToHexa } from '../../services/utils';
 
-const BG = '#000000'; // background color
-const ITEMSIZE = 200;
+// const BG = '#ffffff'; // background color
 
-function Canvas() {
+// const ITEMSIZE = 100;
+
+function Canvas({ tileSize: ITEMSIZE, bgColor: BG }) {
   const canvasRef = useRef();
   const [context, setContext] = useState();
+
+  // draw square
+  const drawSquare = useCallback((x, y, color) => {
+    // Back square
+    context.fillStyle = color;
+    context.fillRect(x, y, ITEMSIZE, ITEMSIZE);
+
+    // hole inside square only 33% chance to draw it
+    const isHoled = rand(0, 3);
+    if (isHoled === 1) {
+      const newSize = (ITEMSIZE) / 3;
+      context.fillStyle = BG;
+      context.fillRect(x + newSize, y + newSize, newSize, newSize);
+    }
+  }, [BG, ITEMSIZE, context]);
+
+  // draw arc
+  const drawArc = useCallback((x, y, color) => {
+    // Back square
+    context.fillStyle = BG;
+    context.fillRect(x, y, ITEMSIZE, ITEMSIZE);
+
+    // draw circle
+    const rayon = Math.max((ITEMSIZE) / 2, 0);
+    context.fillStyle = color;
+    context.beginPath();
+    context.arc(x + rayon, y + rayon, rayon, 0, 2 * Math.PI, false);
+    context.fill();
+
+    // draw a hole inside circle (33% chance to draw it)
+    const isHoled = rand(0, 3);
+    if (isHoled === 1) {
+      context.fillStyle = BG;
+      context.beginPath();
+      context.arc(x + rayon, y + rayon, rayon / 3, 0, 2 * Math.PI, false);
+      context.fill();
+    }
+  }, [BG, ITEMSIZE, context]);
+
+  // draw diamond
+  const drawDiamond = useCallback((x, y, color) => {
+    // Back square
+    context.fillStyle = BG;
+    context.fillRect(x, y, ITEMSIZE, ITEMSIZE);
+
+    // draw diamond
+    context.fillStyle = color;
+    // Find center position of the shape
+    const cx = x + (ITEMSIZE / 2);
+    const cy = y + (ITEMSIZE / 2);
+    // Transform properties
+    context.translate(cx, cy); // translate to center of shape
+    context.rotate((45 * Math.PI) / 180);
+    context.scale(0.71, 0.71);
+    context.fillRect(-(ITEMSIZE / 2), -(ITEMSIZE / 2), ITEMSIZE, ITEMSIZE);
+
+    // draw a hole inside the diamond (33% chance to draw it)
+    const isHoled = rand(0, 2);
+    if (isHoled === 1) {
+      const newSize = ITEMSIZE / 3;
+      context.fillStyle = BG;
+      context.fillRect(-((newSize) / 2), -((newSize) / 2), newSize, newSize);
+    }
+    // Reset transform
+    context.setTransform(1, 0, 0, 1, 0, 0);
+  }, [BG, ITEMSIZE, context]);
+
+  // Draw triangle
+  const drawTriangle = useCallback((x, y, color) => {
+    // Back square
+    context.fillStyle = BG;
+    context.fillRect(x, y, ITEMSIZE, ITEMSIZE);
+
+    context.beginPath();
+    const rotation = rand(0, 3);
+    switch (rotation) {
+      case 0: { // Bottom left
+        context.moveTo(x, y + ITEMSIZE);
+        context.lineTo(x + ITEMSIZE, y + ITEMSIZE);
+        context.lineTo(x + ITEMSIZE, y);
+        break;
+      }
+      case 1: { // Top right
+        context.moveTo(x, y);
+        context.lineTo(x + ITEMSIZE, y + ITEMSIZE);
+        context.lineTo(x + ITEMSIZE, y);
+        break;
+      }
+      case 2: { // Top left
+        context.moveTo(x + ITEMSIZE, y);
+        context.lineTo(x, y);
+        context.lineTo(x, y + ITEMSIZE);
+        break;
+      }
+      default: { // Bottom left
+        context.moveTo(x, y);
+        context.lineTo(x, y + ITEMSIZE);
+        context.lineTo(x + ITEMSIZE, y + ITEMSIZE);
+        break;
+      }
+    }
+    context.closePath();
+    context.fillStyle = color;
+    context.fill();
+  }, [BG, ITEMSIZE, context]);
+
+  // Draw rounded corner shape (1 side corner rounded at 100%)
+  const drawRoundedCorner = useCallback((x, y, color) => {
+    // Back square
+    context.fillStyle = BG;
+    context.fillRect(x, y, ITEMSIZE, ITEMSIZE);
+
+    // Find center position of the shape
+    const cx = x + (ITEMSIZE / 2);
+    const cy = y + (ITEMSIZE / 2);
+    context.fillStyle = color;
+    context.beginPath();
+    // Transform properties
+    context.translate(cx, cy); // translate to center of shape
+    const rotation = rand(0, 3);
+    switch (rotation) {
+      case 0: { // Bottom left
+        context.rotate((-90 * Math.PI) / 180);
+        break;
+      }
+      case 1: { // Top right
+        context.rotate((90 * Math.PI) / 180);
+        break;
+      }
+      case 2: { // Top left
+        context.rotate((0 * Math.PI) / 180);
+        break;
+      }
+      default: { // Bottom left
+        context.rotate((180 * Math.PI) / 180);
+        break;
+      }
+    }
+    context.arc(-(ITEMSIZE / 2), -(ITEMSIZE / 2), Math.max(ITEMSIZE, 0), 0, Math.PI / 2, false);
+    context.lineTo(-(ITEMSIZE / 2), -(ITEMSIZE / 2));
+    context.fill();
+    context.closePath();
+    // Reset transform
+    context.setTransform(1, 0, 0, 1, 0, 0);
+  }, [BG, ITEMSIZE, context]);
+
+  // Draw rounded square (2 side by side corner rounded at 50%)
+  const drawRoundedSquare = useCallback((x, y, color) => {
+    // Back square
+    context.fillStyle = BG;
+    context.fillRect(x, y, ITEMSIZE, ITEMSIZE);
+
+    const rayon = Math.max((ITEMSIZE) / 2, 0);
+    // Find center position of the shape
+    const cx = x + rayon;
+    const cy = y + rayon;
+    context.fillStyle = color;
+    context.beginPath();
+    // Transform properties
+    context.translate(cx, cy); // translate to center of shape
+    const rotation = rand(0, 3);
+    switch (rotation) {
+      case 0: { // Bottom left
+        context.rotate((-90 * Math.PI) / 180);
+        break;
+      }
+      case 1: { // Top right
+        context.rotate((90 * Math.PI) / 180);
+        break;
+      }
+      case 2: { // Top left
+        context.rotate((0 * Math.PI) / 180);
+        break;
+      }
+      default: { // Bottom left
+        context.rotate((180 * Math.PI) / 180);
+        break;
+      }
+    }
+    context.arc(0, 0, rayon, 0, Math.PI, false);
+    context.lineTo(-rayon, -rayon);
+    context.lineTo(rayon, -rayon);
+    context.fill();
+    context.closePath();
+    // Reset transform
+    context.setTransform(1, 0, 0, 1, 0, 0);
+  }, [BG, ITEMSIZE, context]);
+
+  // All possible shapes
+  const shapes = useMemo(() => [
+    drawSquare, // square
+    drawArc, // circle
+    drawDiamond, // diamond
+    drawTriangle, // triangle
+    drawRoundedCorner, // rounded corner
+    drawRoundedSquare, // rounded square
+  ], [drawArc, drawDiamond, drawRoundedCorner, drawRoundedSquare, drawSquare, drawTriangle]);
 
   // function that return the hexa decimal color from a specific point
   const echoColor = useCallback((c, r) => {
     const imgData = context.getImageData(c, r, ITEMSIZE, ITEMSIZE);
-    console.time('imgPixels');
     // convert in array
     const imgPixels = Array.from(imgData.data); // all pixels [r1, g1, b1, a1, ..., rn, gn, bn, an]
-    console.timeEnd('imgPixels');
+    const pixelLength = imgPixels.length / 4; // all pixels [r1, g1, b1, a1, ..., rn, gn, bn, an]
 
-    console.time('pixels');
-    // pixels reshapes [[r1, g1, b1, a1], ..., [rn, gn, bn, an]]
-    const pixels = [];
-    while (imgPixels.length) pixels.push(imgPixels.splice(0, 4));
-    console.timeEnd('pixels');
+    // sum of each rgb colors
+    const pixels = [0, 0, 0];
+    for (let i = 0; i < imgPixels.length; i += 4) {
+      pixels[0] += imgPixels[i];
+      pixels[1] += imgPixels[i + 1];
+      pixels[2] += imgPixels[i + 2];
+    }
 
-    console.time('sortedPixels');
-    // sum of pixels sort by colors [sum(r1, ..., rn), sum(g1, ..., gn), sum(b1, ..., bn)] (without alpha)
-    const sortedPixels = pixels.reduce((acc, x) => [acc[0] + x[0], acc[1] + x[1], acc[2] + x[2]], [0, 0, 0]);
-    console.timeEnd('sortedPixels');
-    console.time('colors');
     // means of each pixels colors type
-    const red = Math.floor(sortedPixels[0] / pixels.length); // pixels.length = the number of pixel of each colors
-    const green = Math.floor(sortedPixels[1] / pixels.length);
-    const blue = Math.floor(sortedPixels[2] / pixels.length);
-    console.timeEnd('colors');
-    throw new Error('tesst');
-    // eslint-disable-next-line no-unreachable
-    return rgbToHexa(red, green, blue);
-  }, [context]);
+    const red = Math.floor(pixels[0] / pixelLength); // pixels.length = the number of pixel of each colors
+    const green = Math.floor(pixels[1] / pixelLength);
+    const blue = Math.floor(pixels[2] / pixelLength);
 
+    return rgbToHexa(red, green, blue);
+  }, [ITEMSIZE, context]);
+
+  // draw a random shape
   const drawItems = useCallback((c, r) => {
-    context.fillStyle = `${echoColor(c * ITEMSIZE, r * ITEMSIZE)}`;
-    // console.log(c * ITEMSIZE, r * ITEMSIZE, ITEMSIZE, ITEMSIZE);
-    context.fillRect(c * ITEMSIZE, r * ITEMSIZE, ITEMSIZE, ITEMSIZE);
-  }, [context, echoColor]);
+    // Calculate x & y coordinate
+    const x = c * ITEMSIZE;
+    const y = r * ITEMSIZE;
+
+    // calculate the color
+    const color = echoColor(x, y);
+
+    // get a random shape from the list
+    const rShapeIndex = rand(0, (shapes.length - 1));
+
+    // draw the selected shape
+    shapes?.[rShapeIndex](x, y, color);
+  }, [ITEMSIZE, echoColor, shapes]);
 
   // display the grid
   const drawGrid = useCallback(() => {
@@ -61,12 +266,12 @@ function Canvas() {
         drawItems(cIndex, rIndex);
       });
     });
-  }, [drawItems]);
+  }, [ITEMSIZE, drawItems]);
 
   // draw image wallpaper
   const drawWallpaper = useCallback(() => new Promise((resolve) => {
     const baseImage = new Image();
-    baseImage.src = City;
+    baseImage.src = Face;
     baseImage.onload = () => {
       context.drawImage(baseImage, 0, 0);
       resolve();
@@ -88,10 +293,8 @@ function Canvas() {
     context.fillRect(0, 0, canvasWidth, canvasHeight);
 
     await drawWallpaper();
-    if (true) {
-      drawGrid();
-    }
-  }, [context, drawGrid, drawWallpaper]);
+    drawGrid();
+  }, [BG, context, drawGrid, drawWallpaper]);
 
   // At the mounted state of the component we initialise the canvas
   useEffect(() => {
@@ -111,8 +314,18 @@ function Canvas() {
   }, [context, resizeCanvas]);
 
   return (
-    <canvas ref={canvasRef} className={styles.Root} onClick={echoColor} />
+    <canvas ref={canvasRef} className={styles.Root} />
   );
 }
+
+Canvas.propTypes = {
+  tileSize: PropTypes.number,
+  bgColor: PropTypes.string,
+};
+
+Canvas.defaultProps = {
+  tileSize: 50,
+  bgColor: '#ffffff',
+};
 
 export default React.memo(Canvas);
