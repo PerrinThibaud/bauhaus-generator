@@ -1,0 +1,37 @@
+.Root {
+    position: relative;
+    background-color: #6667AB;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    input {
+        position: relative;
+        width: 25rem;
+        height: 50px;
+        cursor: pointer;
+
+        &::after {
+            content: 'Select an image';
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            display: flex;
+            justify-content: center;
+            color: white;
+            font-size: 1rem;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            background-color: #474883;
+            border-radius: 4px;
+        }
+        &:hover::after {
+            background-color: #30315f;
+        }
+    }
+}

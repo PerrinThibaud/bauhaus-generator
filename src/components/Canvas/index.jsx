@@ -1,5 +1,5 @@
 import React, {
-  useEffect, useRef, useState, useCallback, useMemo,
+  useEffect, useRef, useState, useCallback, useMemo, forwardRef, useImperativeHandle,
 } from 'react';
 import PropTypes from 'prop-types';
 import styles from './Canvas.module.scss';
@@ -9,14 +9,31 @@ import City from '../../assets/images/city.jpg';
 // eslint-disable-next-line no-unused-vars
 import Face from '../../assets/images/face.png';
 import { rand, rgbToHexa } from '../../services/utils';
+import UploadFile from './UploadFile';
+import CanvasWrapper from './CanvasWrapper';
 
 // const BG = '#ffffff'; // background color
 
 // const ITEMSIZE = 100;
 
-function Canvas({ tileSize: ITEMSIZE, bgColor: BG }) {
+const Canvas = forwardRef(({ tileSize: ITEMSIZE, bgColor: BG }, ref) => {
   const canvasRef = useRef();
-  const [context, setContext] = useState();
+  const [context, setContext] = useState(null);
+  const [image, setImage] = useState(null);
+  const [imageSize, setImageSize] = useState({ width: 0, height: 0 });
+
+  // The component instance will be extended
+  // with whatever you return from the callback passed
+  // as the second argument
+  useImperativeHandle(ref, () => ({
+
+    removeImage() {
+      setImage(null);
+      setContext(null);
+      setImageSize({ width: 0, height: 0 });
+    },
+
+  }));
 
   // draw square
   const drawSquare = useCallback((x, y, color) => {
@@ -268,15 +285,37 @@ function Canvas({ tileSize: ITEMSIZE, bgColor: BG }) {
     });
   }, [ITEMSIZE, drawItems]);
 
+  // function to center and fit the image
+  function drawImageScaled(img, ctx) {
+    const { canvas } = ctx;
+    const hRatio = canvas.width / img.width;
+    const vRatio = canvas.height / img.height;
+    const ratio = Math.min(hRatio, vRatio);
+    const centerShiftX = (canvas.width - img.width * ratio) / 2;
+    const centerShiftY = (canvas.height - img.height * ratio) / 2;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(
+      img,
+      0,
+      0,
+      img.width,
+      img.height,
+      centerShiftX,
+      centerShiftY,
+      img.width * ratio,
+      img.height * ratio,
+    );
+  }
+
   // draw image wallpaper
   const drawWallpaper = useCallback(() => new Promise((resolve) => {
     const baseImage = new Image();
-    baseImage.src = Face;
+    baseImage.src = image;
     baseImage.onload = () => {
-      context.drawImage(baseImage, 0, 0);
+      drawImageScaled(baseImage, context);
       resolve();
     };
-  }), [context]);
+  }), [context, image]);
 
   // Runs each time the DOM window resize event fires.
   // Resets the canvas dimensions to match window,
@@ -298,25 +337,33 @@ function Canvas({ tileSize: ITEMSIZE, bgColor: BG }) {
 
   // At the mounted state of the component we initialise the canvas
   useEffect(() => {
-    const canvas = canvasRef.current;
-    setContext(canvas.getContext('2d'));
-  }, []);
+    if (image) {
+      const canvas = canvasRef.current;
+      setContext(canvas.getContext('2d'));
+    }
+  }, [image]);
 
   // we initialise resize functions
   useEffect(() => {
-    if (context) {
+    if (context && image) {
       window.addEventListener('resize', resizeCanvas, false);
       resizeCanvas();
     }
     return () => {
       window.removeEventListener('resize', resizeCanvas, false);
     };
-  }, [context, resizeCanvas]);
+  }, [context, image, resizeCanvas]);
 
   return (
-    <canvas ref={canvasRef} className={styles.Root} />
+    !image ? (
+      <UploadFile setImage={setImage} setImageSize={setImageSize} />
+    ) : (
+      <CanvasWrapper imageSize={imageSize}>
+        <canvas ref={canvasRef} className={styles.Root} />
+      </CanvasWrapper>
+    )
   );
-}
+});
 
 Canvas.propTypes = {
   tileSize: PropTypes.number,

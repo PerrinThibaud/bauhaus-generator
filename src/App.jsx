@@ -1,4 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {
+  useCallback, useEffect, useRef, useState,
+} from 'react';
 import './App.css';
 import * as dat from 'dat.gui';
 import { Canvas } from './components';
@@ -7,6 +9,7 @@ function App() {
   const [gui, setGui] = useState(null);
   const [tileSize, setTileSize] = useState(50);
   const [bgColor, setBgColor] = useState('#ffffff');
+  const canvasRef = useRef();
 
   // function to initialise the GUI
   const initGui = useCallback(() => {
@@ -20,7 +23,8 @@ function App() {
     const backgroundColor = g.addColor({ color: '#ffffff' }, 'color').name('Background color');
     backgroundColor.onFinishChange(setBgColor);
 
-    g.add({ refresh: () => { console.log('test'); } }, 'refresh').name('Refresh');
+    // Button to remove image
+    g.add({ remove: () => { canvasRef.current.removeImage(); } }, 'remove').name('Remove the image');
 
     // save the gui inside state
     setGui(g);
@@ -34,7 +38,7 @@ function App() {
 
   return (
     <div className="App">
-      <Canvas tileSize={tileSize} bgColor={bgColor} />
+      <Canvas ref={canvasRef} tileSize={tileSize} bgColor={bgColor} />
     </div>
   );
 }
