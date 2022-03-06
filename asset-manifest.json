@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/bauhaus-generator/static/css/main.b6084566.css",
+    "main.js": "/bauhaus-generator/static/js/main.1cf38238.js",
+    "static/js/787.baf2db0d.chunk.js": "/bauhaus-generator/static/js/787.baf2db0d.chunk.js",
+    "static/media/Lexend-Light.ttf": "/bauhaus-generator/static/media/Lexend-Light.f83c4fa3c95d025d647d.ttf",
+    "static/media/Lexend-Black.ttf": "/bauhaus-generator/static/media/Lexend-Black.7e7fd7ba08ef81be9666.ttf",
+    "static/media/Lexend-Regular.ttf": "/bauhaus-generator/static/media/Lexend-Regular.c277e7835cbaa0bddd8b.ttf",
+    "index.html": "/bauhaus-generator/index.html",
+    "main.b6084566.css.map": "/bauhaus-generator/static/css/main.b6084566.css.map",
+    "main.1cf38238.js.map": "/bauhaus-generator/static/js/main.1cf38238.js.map",
+    "787.baf2db0d.chunk.js.map": "/bauhaus-generator/static/js/787.baf2db0d.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.b6084566.css",
+    "static/js/main.1cf38238.js"
+  ]
+}
