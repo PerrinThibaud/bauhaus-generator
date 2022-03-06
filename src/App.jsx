@@ -8,7 +8,8 @@ import { Canvas, Layout } from './components';
 function App() {
   const [gui, setGui] = useState(null);
   const [tileSize, setTileSize] = useState(50);
-  const [bgColor, setBgColor] = useState('#f5ece5');
+  // eslint-disable-next-line no-unused-vars
+  const [bgColor, setBgColor] = useState('#f5ece5'); // TODO
   const [appSize, setAppSize] = useState({ width: 0, height: 0 });
   const appRef = useRef();
   const canvasRef = useRef();
@@ -21,9 +22,9 @@ function App() {
     const tileSizeController = g.add({ size: 50 }, 'size', 4, 200, 1).name('Tile size');
     tileSizeController.onFinishChange(setTileSize);
 
-    // The background color
-    const backgroundColor = g.addColor({ color: '#f5ece5' }, 'color').name('Background color');
-    backgroundColor.onFinishChange(setBgColor);
+    // TODO The background color
+    // const backgroundColor = g.addColor({ color: '#f5ece5' }, 'color').name('Background color');
+    // backgroundColor.onFinishChange(setBgColor);
 
     // Button to remove image
     g.add({ remove: () => { canvasRef.current.removeImage(); } }, 'remove').name('Remove the image');
