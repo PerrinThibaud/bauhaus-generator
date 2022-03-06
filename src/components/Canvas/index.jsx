@@ -16,7 +16,7 @@ import CanvasWrapper from './CanvasWrapper';
 
 // const ITEMSIZE = 100;
 
-const Canvas = forwardRef(({ tileSize: ITEMSIZE, bgColor: BG }, ref) => {
+const Canvas = forwardRef(({ tileSize: ITEMSIZE, bgColor: BG, appSize }, ref) => {
   const canvasRef = useRef();
   const [context, setContext] = useState(null);
   const [image, setImage] = useState(null);
@@ -358,7 +358,7 @@ const Canvas = forwardRef(({ tileSize: ITEMSIZE, bgColor: BG }, ref) => {
     !image ? (
       <UploadFile setImage={setImage} setImageSize={setImageSize} />
     ) : (
-      <CanvasWrapper imageSize={imageSize}>
+      <CanvasWrapper imageSize={imageSize} appSize={appSize}>
         <canvas ref={canvasRef} className={styles.Root} />
       </CanvasWrapper>
     )
@@ -368,6 +368,10 @@ const Canvas = forwardRef(({ tileSize: ITEMSIZE, bgColor: BG }, ref) => {
 Canvas.propTypes = {
   tileSize: PropTypes.number,
   bgColor: PropTypes.string,
+  appSize: PropTypes.exact({
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
+  }).isRequired,
 };
 
 Canvas.defaultProps = {

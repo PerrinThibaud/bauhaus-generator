@@ -9,6 +9,8 @@ function App() {
   const [gui, setGui] = useState(null);
   const [tileSize, setTileSize] = useState(50);
   const [bgColor, setBgColor] = useState('#ffffff');
+  const [appSize, setAppSize] = useState({ width: 0, height: 0 });
+  const appRef = useRef();
   const canvasRef = useRef();
 
   // function to initialise the GUI
@@ -30,15 +32,29 @@ function App() {
     setGui(g);
   }, [gui]);
 
+  // Function to update the size of the .App div
+  const listenAppSize = useCallback(async () => {
+    setAppSize({ width: appRef.current.clientWidth, height: appRef.current.clientHeight });
+  }, []);
+
   // init the dat.gui
   useEffect(() => {
     initGui();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // only at the mounted state
 
+  // we initialise resize functions
+  useEffect(() => {
+    window.addEventListener('resize', listenAppSize, false);
+    listenAppSize();
+    return () => {
+      window.removeEventListener('resize', listenAppSize, false);
+    };
+  }, [listenAppSize]);
+
   return (
-    <div className="App">
-      <Canvas ref={canvasRef} tileSize={tileSize} bgColor={bgColor} />
+    <div className="App" ref={appRef}>
+      <Canvas ref={canvasRef} tileSize={tileSize} bgColor={bgColor} appSize={appSize} />
     </div>
   );
 }

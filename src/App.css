@@ -5,3 +5,13 @@
   height: inherit;
   overflow: hidden;
 }
+
+#root {
+  padding: 100px;
+}
+
+.App {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
