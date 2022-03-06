@@ -1,18 +1,18 @@
 {
   "files": {
     "main.css": "/bauhaus-generator/static/css/main.b6c0ba89.css",
-    "main.js": "/bauhaus-generator/static/js/main.31bae6d4.js",
+    "main.js": "/bauhaus-generator/static/js/main.56d9d52a.js",
     "static/js/787.baf2db0d.chunk.js": "/bauhaus-generator/static/js/787.baf2db0d.chunk.js",
     "static/media/Lexend-Light.ttf": "/bauhaus-generator/static/media/Lexend-Light.f83c4fa3c95d025d647d.ttf",
     "static/media/Lexend-Black.ttf": "/bauhaus-generator/static/media/Lexend-Black.7e7fd7ba08ef81be9666.ttf",
     "static/media/Lexend-Regular.ttf": "/bauhaus-generator/static/media/Lexend-Regular.c277e7835cbaa0bddd8b.ttf",
     "index.html": "/bauhaus-generator/index.html",
     "main.b6c0ba89.css.map": "/bauhaus-generator/static/css/main.b6c0ba89.css.map",
-    "main.31bae6d4.js.map": "/bauhaus-generator/static/js/main.31bae6d4.js.map",
+    "main.56d9d52a.js.map": "/bauhaus-generator/static/js/main.56d9d52a.js.map",
     "787.baf2db0d.chunk.js.map": "/bauhaus-generator/static/js/787.baf2db0d.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.b6c0ba89.css",
-    "static/js/main.31bae6d4.js"
+    "static/js/main.56d9d52a.js"
   ]
 }
