@@ -1,0 +1,52 @@
+.Root {
+    position: relative;
+    background-color: transparent;
+    display: grid;
+    grid-template-columns: 100px 1fr 100px;
+    grid-template-rows: 100px 1fr 100px;
+    width: 100%;
+    height: 100%;
+
+    & .Header, & .Left, & .Content, & .Right, & .Footer {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+    }
+
+    & .Header {
+        grid-column: 1 / 4;
+        grid-row: 1;
+    }
+    & .Left {
+        grid-column: 1;
+        grid-row: 2;
+        writing-mode: vertical-rl;
+        font-size: 12px;
+        letter-spacing: 2px;
+        text-orientation: sideways-right;
+        & p {
+            transform-origin: center;
+            transform: rotate(180deg);
+        }
+    }
+
+    & .Content {
+        grid-column: 2;
+        grid-row: 2;
+    }
+    
+    & .Right {
+        grid-column: 3;
+        grid-row: 2;
+        writing-mode: vertical-rl;
+        text-orientation: sideways;
+        letter-spacing: 2px;
+    }
+    & .Footer {
+        grid-column: 1 / 4;
+        grid-row: 3;
+    }
+}

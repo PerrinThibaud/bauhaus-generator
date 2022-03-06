@@ -19,7 +19,13 @@ function UploadFile({ setImage, setImageSize }) {
 
   return (
     <div className={styles.Root} onChange={handleDataChange}>
-      <input type="file" name="picture" id="picture" accept="image/png, image/jpeg" />
+      <div className={styles.Wrapper}>
+        <span />
+        <span />
+        <span />
+        <span />
+        <input type="file" name="picture" id="picture" accept="image/png, image/jpeg" />
+      </div>
     </div>
   );
 }

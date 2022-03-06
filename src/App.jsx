@@ -3,12 +3,12 @@ import React, {
 } from 'react';
 import './App.css';
 import * as dat from 'dat.gui';
-import { Canvas } from './components';
+import { Canvas, Layout } from './components';
 
 function App() {
   const [gui, setGui] = useState(null);
   const [tileSize, setTileSize] = useState(50);
-  const [bgColor, setBgColor] = useState('#ffffff');
+  const [bgColor, setBgColor] = useState('#f5ece5');
   const [appSize, setAppSize] = useState({ width: 0, height: 0 });
   const appRef = useRef();
   const canvasRef = useRef();
@@ -22,7 +22,7 @@ function App() {
     tileSizeController.onFinishChange(setTileSize);
 
     // The background color
-    const backgroundColor = g.addColor({ color: '#ffffff' }, 'color').name('Background color');
+    const backgroundColor = g.addColor({ color: '#f5ece5' }, 'color').name('Background color');
     backgroundColor.onFinishChange(setBgColor);
 
     // Button to remove image
@@ -53,8 +53,12 @@ function App() {
   }, [listenAppSize]);
 
   return (
-    <div className="App" ref={appRef}>
-      <Canvas ref={canvasRef} tileSize={tileSize} bgColor={bgColor} appSize={appSize} />
+    <div className="App" style={{ backgroundColor: bgColor }}>
+      <Layout>
+        <div className="AppWrapper" ref={appRef}>
+          <Canvas ref={canvasRef} tileSize={tileSize} bgColor={bgColor} appSize={appSize} />
+        </div>
+      </Layout>
     </div>
   );
 }
