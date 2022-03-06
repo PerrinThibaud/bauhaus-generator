@@ -6,7 +6,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
+  <a href="https://github.com/PerrinThibaud/bauhaus-generator">
     <img src="public/bauhaus-generator-logo.svg" alt="Logo" width="80" height="80">
   </a>
 
@@ -39,5 +39,5 @@ Project Link: [https://github.com/PerrinThibaud/bauhaus-generator](https://githu
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[license-shield]: https://img.shields.io/github/license/PerrinThibaud/bauhaus-generator.svg?style=for-the-badge
+[license-shield]: https://img.shields.io/github/license/PerrinThibaud/bauhaus-generator?style=for-the-badge&logo=appveyor
 [license-url]: https://github.com/PerrinThibaud/bauhaus-generator/blob/master/LICENSE.txt

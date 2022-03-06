@@ -206,7 +206,7 @@ const Canvas = forwardRef(({ tileSize: ITEMSIZE, bgColor: BG, appSize }, ref) =>
       <UploadFile setImage={setImage} setImageSize={setImageSize} />
     ) : (
       <CanvasWrapper imageSize={imageSize} appSize={appSize}>
-        <canvas ref={canvasRef} className={styles.Root} />
+        <canvas ref={canvasRef} className={styles.Root} id="canvas" />
       </CanvasWrapper>
     )
   );

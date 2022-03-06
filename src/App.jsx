@@ -26,6 +26,18 @@ function App() {
     // const backgroundColor = g.addColor({ color: '#f5ece5' }, 'color').name('Background color');
     // backgroundColor.onFinishChange(setBgColor);
 
+    // Button to download the image
+    g.add({
+      download: () => {
+        const data = document?.getElementById('canvas')?.toDataURL();
+        if (data) {
+          const link = document.createElement('a');
+          link.download = 'bauhaus-wallpaper.png';
+          link.href = data;
+          link.click();
+        }
+      },
+    }, 'download').name('Download the image');
     // Button to remove image
     g.add({ remove: () => { canvasRef.current.removeImage(); } }, 'remove').name('Remove the image');
 
