@@ -1,4 +1,5 @@
 {
+  "homepage": "http://perrinthibaud.github.io/bauhaus-generator",
   "name": "bauhaus-generator",
   "version": "0.1.0",
   "private": true,
@@ -25,9 +26,11 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && mv ./build ./docs",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "lint": "npx eslint --ignore-pattern '**/node_modules/*' --ignore-pattern '**/*.test.js' --fix ./src --ext .js --ext .jsx",
+    "predeploy": "yarn build",
+    "deploy": "gh-pages -d build",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -85,5 +88,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "gh-pages": "^3.2.3"
   }
 }
