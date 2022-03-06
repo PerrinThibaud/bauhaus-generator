@@ -54,7 +54,7 @@ function App() {
   }, [listenAppSize]);
 
   return (
-    <div className="App" style={{ backgroundColor: bgColor }}>
+    <div className="App">
       <Layout>
         <div className="AppWrapper" ref={appRef}>
           <Canvas ref={canvasRef} tileSize={tileSize} bgColor={bgColor} appSize={appSize} />

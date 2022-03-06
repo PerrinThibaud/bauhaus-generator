@@ -1,3 +1,10 @@
 export { default as rgbToHexa } from './RgbToHex';
 export { default as average } from './Average';
 export { default as rand } from './Rand';
+export { default as shadeColor } from './ShadeColor';
+export { default as drawSquare } from './DrawSquare';
+export { default as drawArc } from './DrawArc';
+export { default as drawDiamond } from './DrawDiamond';
+export { default as drawTriangle } from './DrawTriangle';
+export { default as drawRoundedCorner } from './DrawRoundedCorner';
+export { default as drawRoundedSquare } from './DrawRoundedSquare';
