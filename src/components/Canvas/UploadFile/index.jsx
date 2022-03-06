@@ -25,6 +25,8 @@ function UploadFile({ setImage, setImageSize }) {
         <span />
         <span />
         <input type="file" name="picture" id="picture" accept="image/png, image/jpeg" />
+        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+        <label htmlFor="picture">Select an image</label>
       </div>
     </div>
   );

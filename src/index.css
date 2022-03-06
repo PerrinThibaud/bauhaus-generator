@@ -1,3 +1,24 @@
+@font-face {
+  font-family: 'Lexend Bold';
+  src: url('./assets/font/Lexend-Black.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Lexend Regular';
+  src: url('./assets/font/Lexend-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Lexend Light';
+  src: url('./assets/font/Lexend-Light.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 *,
 *:after,
 *:before {
@@ -25,4 +46,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.dg {
+  z-index: 999 !important;
 }

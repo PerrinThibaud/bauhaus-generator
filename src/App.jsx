@@ -28,6 +28,7 @@ function App() {
     // Button to remove image
     g.add({ remove: () => { canvasRef.current.removeImage(); } }, 'remove').name('Remove the image');
 
+    g.close();
     // save the gui inside state
     setGui(g);
   }, [gui]);

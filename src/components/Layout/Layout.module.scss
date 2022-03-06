@@ -1,8 +1,9 @@
+
 .Root {
     position: relative;
     background-color: transparent;
     display: grid;
-    grid-template-columns: 100px 1fr 100px;
+    grid-template-columns: 100px minmax(calc(100vw - 200px), 1fr) 100px;
     grid-template-rows: 100px 1fr 100px;
     width: 100%;
     height: 100%;
@@ -19,14 +20,20 @@
     & .Header {
         grid-column: 1 / 4;
         grid-row: 1;
+        font-family: 'Lexend Bold', serif;
+        font-size: 2rem;
+        z-index: 2;
+        pointer-events: none;
     }
     & .Left {
         grid-column: 1;
         grid-row: 2;
-        writing-mode: vertical-rl;
+        writing-mode: vertical-lr;
         font-size: 12px;
         letter-spacing: 2px;
-        text-orientation: sideways-right;
+        text-orientation: sideways;
+        font-family: 'Lexend Light', serif;
+        z-index: 2;
         & p {
             transform-origin: center;
             transform: rotate(180deg);
@@ -43,10 +50,21 @@
         grid-row: 2;
         writing-mode: vertical-rl;
         text-orientation: sideways;
-        letter-spacing: 2px;
+        letter-spacing: 1px;
+        font-family: 'Lexend Regular', serif;
+        z-index: 2;
     }
     & .Footer {
         grid-column: 1 / 4;
         grid-row: 3;
+        z-index: 2;
+    }
+}
+
+@media screen and (max-width: 762px)
+{
+    .Root {
+        grid-template-columns: 50px minmax(calc(100vw - 100px), 1fr) 50px;
+        grid-template-rows: 50px 1fr 50px;
     }
 }
