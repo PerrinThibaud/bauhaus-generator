@@ -15,9 +15,8 @@ function App() {
   const canvasRef = useRef();
 
   // function to initialise the GUI
-  const initGui = useCallback(() => {
+  const initGui = useCallback((g) => {
     gui?.destroy();
-    const g = new dat.GUI({ name: 'My GUI' });
     // Size of each tiles
     const tileSizeController = g.add({ size: 50 }, 'size', 4, 200, 1).name('Tile size');
     tileSizeController.onFinishChange(setTileSize);
@@ -53,7 +52,11 @@ function App() {
 
   // init the dat.gui
   useEffect(() => {
-    initGui();
+    const g = new dat.GUI({ name: 'My GUI' });
+    initGui(g);
+    return () => {
+      g?.destroy();
+    };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // only at the mounted state
 

@@ -124,12 +124,12 @@ const Canvas = forwardRef(({ tileSize: ITEMSIZE, bgColor: BG, appSize }, ref) =>
     const columnsNb = Math.ceil(imageSize.width / ITEMSIZE);
     const rowsNb = Math.ceil(imageSize.height / ITEMSIZE);
     // Columns
-    Array.from({ length: columnsNb }, (_, k) => k).forEach((cIndex) => {
+    for (let cIndex = 0; cIndex < columnsNb; cIndex += 1) {
       // Rows
-      Array.from({ length: rowsNb }, (_, k) => k).forEach((rIndex) => {
+      for (let rIndex = 0; rIndex < rowsNb; rIndex += 1) {
         drawItems(cIndex, rIndex);
-      });
-    });
+      }
+    }
   }, [ITEMSIZE, drawItems, imageSize.height, imageSize.width]);
 
   // function to center and fit the image
